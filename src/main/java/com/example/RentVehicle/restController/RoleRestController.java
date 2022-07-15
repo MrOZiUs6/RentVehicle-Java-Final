@@ -2,6 +2,7 @@ package com.example.RentVehicle.restController;
 
 import com.example.RentVehicle.exception.NotFound;
 import com.example.RentVehicle.repository.RoleRepository;
+import com.example.RentVehicle.services.RoleService;
 import com.example.RentVehicle.tables.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,6 +16,9 @@ class RoleRestController {
 
     @Autowired
     RoleRepository repository;
+
+    @Autowired
+    RoleService service;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     List<Role> all() {
@@ -39,10 +43,7 @@ class RoleRestController {
     @PutMapping("/{id}")
     Role replaceRole(@RequestBody Role newRole, @PathVariable int id) {
 
-        Role role = repository.getRoleById(id);
-        role.setNameRole(newRole.getNameRole());
-        repository.save(role);
-        return role;
+        return service.replaceRole(newRole, id);
     }
 
     @DeleteMapping("/{id}")

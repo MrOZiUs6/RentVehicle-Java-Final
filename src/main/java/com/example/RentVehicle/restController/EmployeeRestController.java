@@ -2,6 +2,7 @@ package com.example.RentVehicle.restController;
 
 import com.example.RentVehicle.exception.NotFound;
 import com.example.RentVehicle.repository.EmployeeRepository;
+import com.example.RentVehicle.services.EmployeeService;
 import com.example.RentVehicle.tables.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,9 @@ public class EmployeeRestController {
 
     @Autowired
     EmployeeRepository repository;
+
+    @Autowired
+    EmployeeService service;
 
     @GetMapping("/all")
     List<Employee> all() {
@@ -38,15 +42,7 @@ public class EmployeeRestController {
     @PutMapping("/{id}")
     Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable int id) {
 
-        Employee employee = repository.getEmployeeById(id);
-        employee.setSurname(newEmployee.getSurname());
-        employee.setName(newEmployee.getName());
-        employee.setPatronymic(newEmployee.getPatronymic());
-        employee.setLogin(newEmployee.getLogin());
-        employee.setPassword(newEmployee.getPassword());
-        employee.setIdRole(newEmployee.getIdRole());
-        repository.save(employee);
-        return employee;
+        return service.replaceEmployee(newEmployee, id);
     }
 
     @DeleteMapping("/{id}")

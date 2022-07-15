@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class Client {
     @Id
     @Column(name = "document_number", nullable = false, precision = 10)
-    private BigDecimal id;
+    private Long id;
 
     @Column(name = "surname", nullable = false, length = 50)
     private String surname;
@@ -28,11 +28,11 @@ public class Client {
     @Column(name = "password", nullable = false, length = 50)
     private String password;
 
-    public BigDecimal getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

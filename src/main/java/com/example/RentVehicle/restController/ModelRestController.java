@@ -2,6 +2,7 @@ package com.example.RentVehicle.restController;
 
 import com.example.RentVehicle.exception.NotFound;
 import com.example.RentVehicle.repository.ModelRepository;
+import com.example.RentVehicle.services.ModelService;
 import com.example.RentVehicle.tables.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,9 @@ public class ModelRestController {
 
     @Autowired
     ModelRepository repository;
+
+    @Autowired
+    ModelService service;
 
     @GetMapping("/all")
     List<Model> all() {
@@ -38,15 +42,7 @@ public class ModelRestController {
     @PutMapping("/{id}")
     Model replaceModel(@RequestBody Model newModel, @PathVariable int id) {
 
-        Model model = repository.getModelById(id);
-        model.setModelType(newModel.getModelType());
-        model.setNumberOfWheels(newModel.getNumberOfWheels());
-        model.setNumberOfSeats(newModel.getNumberOfSeats());
-        model.setWheelSize(newModel.getWheelSize());
-        model.setWheelType(newModel.getWheelType());
-        model.setFrameType(newModel.getFrameType());
-        repository.save(model);
-        return model;
+        return service.replaceModel(newModel, id);
     }
 
     @DeleteMapping("/{id}")

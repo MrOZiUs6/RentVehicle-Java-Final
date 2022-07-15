@@ -2,6 +2,7 @@ package com.example.RentVehicle.restController;
 
 import com.example.RentVehicle.exception.NotFound;
 import com.example.RentVehicle.repository.ClientRepository;
+import com.example.RentVehicle.services.ClientService;
 import com.example.RentVehicle.tables.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,9 @@ class ClientRestController {
 
     @Autowired
     ClientRepository repository;
+
+    @Autowired
+    ClientService service;
 
     @GetMapping("/all")
     List<Client> all() {
@@ -28,24 +32,17 @@ class ClientRestController {
 
     // Single item
 
-    @GetMapping("/{Document_Number}")
+    @GetMapping("/{id}")
     Client one(@PathVariable Long id) {
 
         return repository.findById(id)
                 .orElseThrow(() -> new NotFound(id));
     }
 
-    @PutMapping("/{Document_Number}")
-    Client replaceClient(@RequestBody Client newClient, @PathVariable Long id) {
+    @PutMapping("/{id}")
+    Client replaceClient(@RequestBody Client newClient, @PathVariable  Long id) {
 
-        Client client = repository.getClientById(id);
-        client.setSurname(newClient.getSurname());
-        client.setName(newClient.getName());
-        client.setPatronymic(newClient.getPatronymic());
-        client.setTelephoneNumber(newClient.getTelephoneNumber());
-        client.setPassword(newClient.getPassword());
-        repository.save(client);
-        return client;
+        return service.replaceClient(newClient, id);
     }
 
     @DeleteMapping("/{id}")

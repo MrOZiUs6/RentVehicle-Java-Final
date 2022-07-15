@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ModelRepository extends JpaRepository<Model, Long> {
-    Model getModelById(int ID_Model_Type);
+    Model getModelById(int idModelType);
 }
